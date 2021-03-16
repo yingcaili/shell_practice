@@ -17,7 +17,7 @@
 #### 答疑解惑
 
 issue 
-Email: yingcaili@foxmail.com
-wechat  Official Accounts: [yingcai.tech](https://www.yingcai.tech)
+Email: yingcaili@foxmail.com  
+wechat  Official Account: [yingcai.tech](https://www.yingcai.tech)
 
 
