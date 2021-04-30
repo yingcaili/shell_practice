@@ -11,24 +11,15 @@
 ALLDIR=`ls`
 CUR_DIR=`pwd`
 PRPJ_DIR="."
-DESTINATION="CustomerReq" 
+DESTINATION="" 
 FOLDERNAME="
-    000_ReqDoc_Sch
-    001_GeneralDesign
-    002_DetailedDesign
-    003_UnitTestCase
-    004_UnitTestReport
-    005_IntergratedTestCase
-    006_IntergratedTestReport
-    007_CodeRuleReport
-    008_SoftWareVersionHistory
-    009_ReleaseNote"
+    Touch"
 
 #写错，或者已创建但是需要删除的文件（夹）
 #FILETO_DElETE=$FOLDERNAME 这个删除上面所有文件夹
-FILETO_DElETE="002_DetailDesign" #这个列表中的会单独删除
+FILETO_DElETE="Touch" #这个列表中的会单独删除
 
-
+COPY_FOLDER="Touch"
 function CreateFolder()
 {
     for i_dir in $ALLDIR
@@ -42,16 +33,16 @@ function CreateFolder()
                 #:
         
         
-        cd $PRPJ_DIR/$i_dir/$DESTINATION/
-        for i in $FOLDERNAME
-        do            
-            if [ ! -d $i ];then   
-                mkdir $i
-                echo "create $PRPJ_DIR/$i_dir/$DESTINATION/$i"
-            fi
-        done
-        echo -e "\n"
-        cd $CUR_DIR
+            cd $PRPJ_DIR/$i_dir/$DESTINATION/
+            for i in $FOLDERNAME
+            do            
+                if [ ! -d $i ];then   
+                    mkdir -p $i
+                    echo "create $PRPJ_DIR/$i_dir/$DESTINATION/$i"
+                fi
+            done
+            echo -e "\n"
+            cd $CUR_DIR
 
         fi
     done
@@ -70,7 +61,15 @@ function CleanFolder()
             #] && [ `ls -A $i`=="" ] 
                 if [[ -d $i && `ls -A $i`=="" ]];then
                     rmdir $i
-                    echo -e "delete $PRPJ_DIR/$i_dir/$DESTINATION/$i"
+                    if [ $? -eq 0 ];then
+                        echo -e "delete $PRPJ_DIR/$i_dir/$DESTINATION/$i"
+                    else
+                        echo "delete it by force,,y or n?"
+                        read forcey
+                        if [ $forcey == 'y' ];then
+                        rm -rf $i
+                        fi 
+                    fi
                 elif [ ! -d $i ];then
                     echo -e "$PRPJ_DIR/$i_dir/$DESTINATION/$i does not exist"
                 else
@@ -84,22 +83,20 @@ function CleanFolder()
     done
     
 }
-function MenuFolder()
+function CopyFolder()
 {
-    while true
-    do
-        echo "--------------create basic folder--------------"
-        echo "choose following function:"
-        echo "  1: create folder"
-        echo "  2: delete folder"
-        echo "  q: exit"
-        read opt
-        case $opt in
-         1) CreateFolder ;;
-         2) CleanFolder ;;
-         q) exit ;;
-         *);;
-        esac
+    
+    PackAllFOLDER=`ls`
+    for i in $PackAllFOLDER
+    do 
+        if [ -d ./$i/Release/ ];then
+            cp -rf $COPY_FOLDER  ./$i/$COPY_FOLDER 
+            if [ $? -eq 0 ];then
+                echo -e "Copy $COPY_FOLDER to $i"
+            else
+                echo "CopyFolder error "
+            fi
+        fi
     done
 }
 function PackAllReplace()
@@ -114,5 +111,46 @@ function PackAllReplace()
         fi
     done
 }
+function GitAddFolder()
+{
+    echo -e "GitAddFolder  "
+    PackAllFOLDER=`ls`
+    for i in $PackAllFOLDER
+    do 
+        if [ -d ./$i/Release/ ];then
+            cd $i
+            `git status .`
+            `git add .`
+            `git commit -m "add new folder :$COPY_FOLDER"`   
+            cd ..
+        fi
+    done
+}
+function MenuFolder()
+{
+    while true
+    do
+        echo "--------------create basic folder--------------"
+        echo "choose following function:"
+        echo "  1: create folder"
+        echo "  2: delete folder"
+        echo "  3: copy folder"
+        echo "  4: Replace PackAll "  
+        echo "  5: GitAddFolder " 
+        echo "  q: exit"
+        read opt
+        case $opt in
+         1) CreateFolder ;;
+         2) CleanFolder ;;
+         3) CopyFolder ;;
+         4) PackAllReplace ;;
+         5) GitAddFolder ;;
+         q) exit ;;
+         *);;
+        esac
+    done
+}
+
+
 MenuFolder
 

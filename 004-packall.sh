@@ -17,7 +17,7 @@
 #
 #   history:
 #    1.0:initial version
-#
+#    2.0 add Touch
 #
 #   Author:liyingcai
 #--------------------------------------------
@@ -36,6 +36,7 @@ TOP_DIR=`pwd`
 REL_NOTE_FOLDER=$TOP_DIR  #releaseNote
 SRC_FOLDER=../SourceCode #不支持windows路径格式如，E:\xx\xx\xx\xx
 FBL_FOLDER=../FBL     #不支持windows路径格式
+TOUCH_FOLDER=../Touch
 PACKFILE_FOLDER=pack  #这里修改时对应的hex生成脚本也要修改。
 
 
@@ -170,6 +171,13 @@ function PackAll()
     mv $REL_NOTE_FOLDER/*FBL*.xls[x,] $TARGET_PACK/3_FBL/3_3_FBL_Realease_note/
     cp $REL_NOTE_FOLDER/*.xls[x,] $TARGET_PACK/2_App/2_3_App_Realease_note/
     cp $TARGET_PACK/3_FBL/3_3_FBL_Realease_note/* $REL_NOTE_FOLDER/
+    if [ ! -d $TARGET_PACK/4_Touch ];then
+        mkdir -p $TARGET_PACK/4_Touch/4_1_All_HEX_and_Bootload/
+        mkdir -p $TARGET_PACK/4_Touch/4_2_Version/
+        cp -rf $TOUCH_FOLDER/*.bin $TOUCH_FOLDER/*.7z $TARGET_PACK/4_Touch/4_1_All_HEX_and_Bootload/
+        cp -rf $TOUCH_FOLDER/*.xls[x]  $TARGET_PACK/4_Touch/4_2_Version/
+    fi
+    
 #压缩
     tar -zcf $TARGET_PACK.tar.gz $TARGET_PACK/
     rm -rf $TARGET_PACK/

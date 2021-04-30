@@ -15,6 +15,7 @@
 **006-config-git** 代码批量克隆，生成本地ssh密钥。给不会使用git的初学者  
 **007-DecodeFile** 针对加密的文件，使用Notepad打开后发现输入空格然后删除空格就可解密，写一个批量工具  
 **008-CreateProject_Basic** 生成基础文件夹结构
+**009-CleanKnowHost** 删除用户目录中的knownhost
 #### 答疑解惑
 
 issue 
