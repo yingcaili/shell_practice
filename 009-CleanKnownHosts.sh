@@ -7,7 +7,7 @@
 #       2:将打开方式设置为Git for Windows，可以直接双击运行。
 #
 #   Description:
-#       针对服务器变化导致原host key警告，删除know_hosts
+#       针对服务器变化导致原host key警告，删除known_hosts
 
 #
 #   history:

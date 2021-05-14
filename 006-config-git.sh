@@ -19,6 +19,11 @@ user_email="liyingcai@xxxx.cn"
 server_url="ssh://git@10.0.88.88:1025/ProjectPub/"  
 repos_prj="
     AD-GI25-05
+    AD-DI18
+    AD-GI18
+    P2UF01
+    VX1-AW-AI26
+    X100_AD-QI18
     "
 #新创建的项目文件夹名字，自动创建，若已存在则会先删除再创建
 new_prj="NEWPROJ"

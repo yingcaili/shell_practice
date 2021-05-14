@@ -7,7 +7,7 @@
 
 #### 使用说明
 
-**001_GenerateFolder** 在DESTINATION下创建/删除 FOLDERNAME  
+**001_GenerateFolder]** 批量创建/删除特定结构下某个位置的文件/文件夹  
 **002-AddUser** 创建新用户  
 **003-DelUser** 删除用户  
 **004-packall** 复制源码，调用脚本，自动合成文件并打包成公司上传软件包格式。MCU FBL ReleaseNote文件，见基础格式pack.tar.gz  

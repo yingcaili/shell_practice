@@ -17,7 +17,8 @@
 #
 #   history:
 #    1.0:initial version
-#    2.0 add Touch
+#    1.1: add touch
+#    1.2: add svn folder for HEX
 #
 #   Author:liyingcai
 #--------------------------------------------
@@ -119,6 +120,15 @@ function CreateArchive()
             exit $n
     fi
 }
+function SvnFolder()
+{
+    mkdir -p Svn/烧录文件/
+    mkdir -p Svn/刷新文件/
+    mkdir -p Svn/触摸文件/
+    cp  ${TARGET_PACK}/1_All_Hex_and_Bootload/1_1_All_Hex_and_Bootload/烧录文件/*.hex Svn/烧录文件/
+    cp ${TARGET_PACK}/1_All_Hex_and_Bootload/1_1_All_Hex_and_Bootload/刷新文件/*.bin  Svn/刷新文件/
+    cp ${TARGET_PACK}/4_Touch/4_1_All_HEX_and_Bootload/* Svn/触摸文件/
+}
 function PackAll()
 {
     if [ -d $TARGET_PACK ];then
@@ -174,12 +184,20 @@ function PackAll()
     if [ ! -d $TARGET_PACK/4_Touch ];then
         mkdir -p $TARGET_PACK/4_Touch/4_1_All_HEX_and_Bootload/
         mkdir -p $TARGET_PACK/4_Touch/4_2_Version/
-        cp -rf $TOUCH_FOLDER/*.bin $TOUCH_FOLDER/*.7z $TARGET_PACK/4_Touch/4_1_All_HEX_and_Bootload/
+        if [ -f $TOUCH_FOLDER/*.bin ];then
+        cp -rf $TOUCH_FOLDER/*.bin  $TARGET_PACK/4_Touch/4_1_All_HEX_and_Bootload/
+        fi
+        if [ -f $TOUCH_FOLDER/*.7z ];then
+        cp -rf $TOUCH_FOLDER/*.7z $TARGET_PACK/4_Touch/4_1_All_HEX_and_Bootload/
+        fi
+        if [ -f $TOUCH_FOLDER/*.xls[x]  ];then
         cp -rf $TOUCH_FOLDER/*.xls[x]  $TARGET_PACK/4_Touch/4_2_Version/
+        fi
     fi
-    
 #压缩
     tar -zcf $TARGET_PACK.tar.gz $TARGET_PACK/
+#copy svn upload hex&&bin files
+    SvnFolder
     rm -rf $TARGET_PACK/
     echo $ECHO_OPT  "$LEFT_SEPRATOR Done $RIGHT_SEPRATOR"
 }
